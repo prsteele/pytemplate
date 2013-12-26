@@ -12,14 +12,18 @@ This is a one-pass template system. If you have defined keywords
 Usage
 -----
 
-`pytemplate infile [template ...] [-o --output outfile]`
+`pytemplate [-h] [-i infile] [-o outfile] [template [template ...]]`
 
-This command will fill in all template arguments in `infile`, writing
-to `outfile` if specified and stdout otherwise. `file` is interpreted
-as the contents of a Python string, and so can contain string
-formatting directives using curly-brace syntax. All such directives
-should be keyword directives, such as `My name is {name}`; see <a
-href="http://www.python.org/dev/peps/pep-3101/">here</a> for details.
+This command will apply Python string formatting to the input using
+any provided templates and will output the result. If `infile` is
+specified its contents are used as the source string, otherwise stdin
+is used. The result will be written to `outfile` if it is specified,
+and otherwise to stdout.
+
+The input is interpreted as a Python string that can contain
+curly-brace style formatting directives such as `My name is {name}`;
+see <a href="http://www.python.org/dev/peps/pep-3101/">here</a> for
+details. Only keyword arguments may be used for formatting directives.
 
 Since `infile` is treated as plain text, we need a way to specify the
 formatting arguments. We do this with the template arguments, which
