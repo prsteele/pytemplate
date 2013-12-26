@@ -1,0 +1,7 @@
+This is a sample input file. We can load in keyword arguments such
+as '{foo}' or '{bar:.4f}' using a Python module. It is sometimes
+more convenient to load larger blocks of text such as
+	
+{long}
+	
+by a file such as `long.txt`.

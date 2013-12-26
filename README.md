@@ -12,7 +12,7 @@ This is a one-pass template system. If you have defined keywords
 Usage
 -----
 
-pytemplate infile [template ...] [-o --output outfile]
+`pytemplate infile [template ...] [-o --output outfile]`
 
 This command will fill in all template arguments in `infile`, writing
 to `outfile` if specified and stdout otherwise. `file` is interpreted

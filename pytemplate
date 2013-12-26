@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+
+import sys
+import argparse
+import os
+
+def format(s, ts):
+    """
+    Perform string formatting on string s using all values stored in a
+    sequence of dictionaries ts.
+
+    """
+    
+    keys = {}
+    for t in ts:
+        keys.update(t)
+    return s.format(**keys)
+    
+parser = argparse.ArgumentParser()
+parser.add_argument('templates', nargs='*', metavar='template',
+                    help='specify any templates to use')
+parser.add_argument('-i', dest='input',
+                    action='store', metavar='infile',
+                    help='specify the input file')
+parser.add_argument('-o', dest='output',
+                    action='store', metavar='outfile',
+                    help='specify the output file')
+args = parser.parse_args()
+
+# Get the input string
+if args.input is None:
+    infile = sys.stdin.read()
+else:
+    with open(args.input) as f:
+        infile = f.read()
+
+# Read in each template
+templates = []
+for t in args.templates:
+    root, ext = os.path.splitext(t)
+
+    if ext == os.path.extsep + "py":
+        mod = __import__(root)
+
+        try:
+            attrs = mod.__all__
+        except:
+            attrs = [s for s in dir(mod) if s[:2] != '__']
+
+        template = {k: getattr(mod, k) for k in attrs}
+    else:
+        with open(t) as f:
+            s = f.read()
+        template = {root: s}
+
+    templates.append(template)
+
+outstring = format(infile, templates)
+
+if args.output is None:
+    print(outstring)
+else:
+    with open(args.output, 'w') as f:
+        f.write(outstring)
