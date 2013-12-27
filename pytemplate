@@ -3,6 +3,7 @@
 import sys
 import argparse
 import os
+import importlib
 
 def format(s, ts):
     """
@@ -37,10 +38,11 @@ else:
 # Read in each template
 templates = []
 for t in args.templates:
-    root, ext = os.path.splitext(t)
+    path, name = os.path.split(t)
+    root, ext = os.path.splitext(name)
 
     if ext == os.path.extsep + "py":
-        mod = __import__(root)
+        mod = importlib.find_loader(root, path).load_module()
 
         try:
             attrs = mod.__all__
